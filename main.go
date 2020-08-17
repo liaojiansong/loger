@@ -3,53 +3,58 @@ package main
 import (
 	"errors"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"loger/tools"
 	"loger/watchdog"
 )
 
 func main() {
 	engine := gin.Default()
 	engine.LoadHTMLGlob("template/*")
-	engine.Any("/",index)
+	engine.Any("/", index)
 	engine.GET("/log/:project", logger)
 	engine.Run(":8088")
 }
 
-
 func index(context *gin.Context) {
-	context.HTML(http.StatusOK,"index.tpl","")
+	context.HTML(http.StatusOK, "index.tpl", "")
 }
 
 /**
 获取文件位置
- */
-func getBase(project string)(string,error)  {
-	project_map := map[string]string{"ieas": `D:\code\loger\ieas.api.web.`, "php_error": "/data/logs/php_error.log"}
-	base_path, ok := project_map[project]
-	if ok == false {
-		return "", errors.New(project + "项目不存在")
+*/
+func getBase(project string) (string, error) {
+	base_path := tools.Env("log_path." + project)
+	if base_path == "" {
+		return "", errors.New(project + "项目地址未配置")
 	}
 	dateStr := time.Now().Format("2006-01-02.log")
-	return base_path+dateStr,nil
+	file := base_path + dateStr
+	_, e := os.Stat(file)
+	if e != nil {
+		return "", errors.New(project + "文件不存在:" + e.Error())
+	}
+	return base_path + dateStr, nil
 }
 
 /**
 项目日志
- */
+*/
 func logger(ctx *gin.Context) {
 	lineString := ctx.DefaultQuery("line", "5")
 	line, e := strconv.Atoi(lineString)
 	if e != nil {
-		errorHandel(ctx,errors.New("请输入正确的行数"))
+		errorHandel(ctx, errors.New("请输入正确的行数"))
 		return
 	}
 
-	project := ctx.DefaultQuery("project", "ieas")
+	project := ctx.Param("project")
 	path, e := getBase(project)
-	if e !=nil {
+	if e != nil {
 		errorHandel(ctx, e)
 		return
 	}
@@ -64,20 +69,19 @@ func logger(ctx *gin.Context) {
 		errorHandel(ctx, e)
 		return
 	}
-	ctx.HTML(http.StatusOK, "project_log.tpl",gin.H{
-		"Title":"ieas",
-		"Data":logs,
+	ctx.HTML(http.StatusOK, "project_log.tpl", gin.H{
+		"Title": "ieas",
+		"Data":  logs,
 	})
 }
 
 /**
 
  */
-func errorHandel(ctx *gin.Context,err error)  {
+func errorHandel(ctx *gin.Context, err error) {
 	ctx.HTML(http.StatusOK, "error.tpl", gin.H{
 		"code": 10086,
-		"msg": err.Error(),
+		"msg":  err.Error(),
 	})
 	return
 }
-

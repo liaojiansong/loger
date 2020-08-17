@@ -27,16 +27,16 @@
                                 <a class="nav-link" href="/log/ieas?line=10">ieas日志</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/log/ieas?line=10">brm日志</a>
+                                <a class="nav-link" href="/log/brm?line=10">brm日志</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/log/ieas?line=10">php日志</a>
+                                <a class="nav-link" href="/log/php?line=10">php日志</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/log/ieas?line=10">nginx日志</a>
+                                <a class="nav-link" href="/log/nginx?line=10">nginx日志</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/log/ieas?line=10">supervisor</a>
+                                <a class="nav-link" href="/log/supervior?line=10">supervisor</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">验证码查看</a>
