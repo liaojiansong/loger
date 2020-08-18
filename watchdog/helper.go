@@ -8,7 +8,8 @@ import (
 )
 
 func execCommand(command string, args []string) (string, error) {
-	cmd := exec.Command(command, args...)
+	temp := append([]string{"-c"}, args...)
+	cmd := exec.Command("bash", temp...)
 	// 创建一个标准输入给人家
 	cmd.Stdin = strings.NewReader("标准输入")
 	var out bytes.Buffer
