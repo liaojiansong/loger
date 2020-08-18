@@ -35,7 +35,7 @@
                                 <a class="nav-link" href="/log/nginx?line=10">nginx日志</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/log/supervior?line=10">supervisor</a>
+                                <a class="nav-link" href="/super">supervisor</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/cap">验证码查看</a>

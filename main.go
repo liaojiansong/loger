@@ -19,7 +19,20 @@ func main() {
 	engine.Any("/", index)
 	engine.GET("/log/:project", logger)
 	engine.GET("/cap", Cap)
+	engine.GET("/super", super)
 	engine.Run(":8088")
+
+}
+
+func super(ctx *gin.Context) {
+	statusMap, err := watchdog.GetSuperStatus()
+	if err != nil {
+		errorHandel(ctx, err)
+		return
+	}
+	ctx.HTML(http.StatusOK, "super.tpl", gin.H{
+		"data": statusMap,
+	})
 }
 
 func Cap(ctx *gin.Context) {
