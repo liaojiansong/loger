@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
+        <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
         <title>运维工具</title>
     </head>
     <body>
@@ -39,7 +38,7 @@
                                 <a class="nav-link" href="/log/supervior?line=10">supervisor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">验证码查看</a>
+                                <a class="nav-link" href="/cap">验证码查看</a>
                             </li>
 
                         </ul>

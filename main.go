@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,23 @@ func main() {
 	engine.LoadHTMLGlob("template/*")
 	engine.Any("/", index)
 	engine.GET("/log/:project", logger)
+	engine.GET("/cap", Cap)
 	engine.Run(":8088")
+}
+
+func Cap(ctx *gin.Context) {
+	host := tools.Env("redis.HOST")
+	port := tools.Env("redis.PORT")
+	config := tools.EnvSection("sms_prefix")
+	scanner, err := tools.NewScanner(host, port)
+	if err != nil {
+		errorHandel(ctx, err)
+		return
+	}
+	codes := scanner.ScanCode(config)
+	ctx.HTML(http.StatusOK, "codes.tpl", gin.H{
+		"codes": codes,
+	})
 }
 
 func index(context *gin.Context) {
@@ -28,6 +45,7 @@ func index(context *gin.Context) {
 获取文件位置
 */
 func getBase(project string) (string, error) {
+	project = strings.ToUpper(project)
 	base_path := tools.Env("log_path." + project)
 	if base_path == "" {
 		return "", errors.New(project + "项目地址未配置")

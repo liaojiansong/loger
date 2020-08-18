@@ -102,14 +102,35 @@ func (this *Config) get(name string) string {
 	}
 	return item
 }
+func (this *Config) getSection(name string) item {
+	split2 := strings.Split(name, ".")
+	if len(split2) != 1 {
+		return item{}
+	}
+	section, ok := this.data[split2[0]]
+	if ok == false {
+		return item{}
+	}
+	return section
+}
+
+func genC() *Config {
+	c := &Config{
+		file: `D:\data\loger\.env`,
+	}
+	c.readConfigFile()
+	return c
+}
 
 /**
 读取配置信息
 */
 func Env(name string) string {
-	c := &Config{
-		file: `D:\code\loger\.env`,
-	}
-	c.readConfigFile()
+	c := genC()
 	return c.get(name)
+}
+
+func EnvSection(name string) map[string]string {
+	c := genC()
+	return c.getSection(name)
 }
